@@ -9,12 +9,13 @@ module TTT
   class GameOver      < StandardError; end
 
   class Game
-    SPACES = %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
+    SPACES  = %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
     CORNERS = %w{a1 a3 c1 c3}
-    BOARD = [
-      %w{a1 a2 a3},
-      %w{b1 b2 b3},
-      %w{c1 c2 c3}
+    SIDES   = SPACES - CORNERS
+    BOARD   = [
+    %w{a1 a2 a3},
+    %w{b1 b2 b3},
+    %w{c1 c2 c3}
     ]
 
     # Create a Tic Tac Toe game at the

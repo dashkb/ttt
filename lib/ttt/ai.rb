@@ -33,6 +33,19 @@ module TTT
         return 'b2'
       end
 
+      # if opponent has a corner pair they may have
+      # an opportunity to fork
+      if pairs = corner_pairs(opponent).any?
+        # play the center if it's open
+        if @game.piece_at('b2') == '-'
+          return 'b2'
+        else
+          # don't play a corner
+          sides = @game.pieces_at(*TTT::Game::SIDES)
+          return TTT::Game::SIDES[sides.index('-')]
+        end
+      end
+
       # else, just pick the first open space
       idx = @game.to_a.flatten.index('-')
       TTT::Game::SPACES[idx]
