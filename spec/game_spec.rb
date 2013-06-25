@@ -74,6 +74,13 @@ describe TTT::Game do
       game.play('x', 'a1')
       repo.commits.length.should == 2
     end
+
+    it 'will not place a piece over an existing piece' do
+      game.play('x', 'a1')
+      expect {
+        game.play('o', 'a1')
+      }.to raise_exception(TTT::OccupiedSpace)
+    end
   end
 
 
