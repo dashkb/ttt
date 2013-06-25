@@ -6,7 +6,7 @@ require 'ttt/cli'
 
 begin
   TTT::CLI.start(ARGV)
-rescue RuntimeError => e
+rescue StandardError => e
   puts "ERROR: #{e}".red
 end
 
