@@ -37,7 +37,12 @@ module TTT
 
       Dir.chdir(@dir) do
         SPACES.each do |space|
-          Dir.mkdir(File.join(@dir, space))
+          File.join(@dir, space).tap do |space_dir|
+            Dir.mkdir(space_dir)
+            Dir.chdir(space_dir) do
+              `touch -`
+            end
+          end
         end
 
         `git init .` # error checking obvs
@@ -55,12 +60,13 @@ module TTT
       raise NotYourTurn unless next_player == piece
       raise OccupiedSpace unless Dir.entries(
         File.join(@dir, space)
-      ).length == 2 # ['.', '..'] is empty directory
+      ).include?('-')
 
       Dir.chdir(@dir) do
         path = File.join(space, piece)
         `echo #{piece} > #{path}`
         `git add #{path}`
+        `git rm -f #{File.join(space, '-')}`
         `git commit -m "#{piece} placed on #{space}"`
       end
     end
@@ -70,8 +76,7 @@ module TTT
         BOARD.map do |row|
           row.map do |space|
             # the dir should only have ['.', '..', piece]
-            # and piece might not be there so rescue with a dash
-            Dir.entries(File.join(@dir, space))[2] || '-'
+            Dir.entries(File.join(@dir, space))[2]
           end
         end
       end
