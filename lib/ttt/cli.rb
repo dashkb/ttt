@@ -21,12 +21,24 @@ module TTT
 
     desc 'play SPACE', 'place the next piece at SPACE'
     def play(space)
+      puts "Game is over" and return if game.over?
+
       piece = game.next_player
 
       game.play(piece, space)
       puts "Placing #{piece} on #{space}".green
 
       board
+
+      if game.over?
+        if game.draw?
+          puts "Game ended in draw".yellow
+        elsif game.won?('x')
+          puts "X is the winner".green
+        else
+          puts "O is the winner".green
+        end
+      end
     end
 
     desc 'aiplay', 'let the computer make the next move'
