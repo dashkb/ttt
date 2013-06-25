@@ -87,6 +87,45 @@ module TTT
       end
     end
 
+    def over?
+      return true if to_a.flatten.count('-') == 0
+      return true if won?('x') || won?('o')
+
+      false
+    end
+
+    def piece_at(space)
+      idx = SPACES.flatten.find_index(space)
+      to_a.flatten[idx]
+    end
+
+    def won?(piece)
+      # win on row?
+      return true if to_a.any? do |row|
+        row.all? { |p| p == piece }
+      end
+
+      # win on column?
+      return true if to_a.transpose.any? do |col|
+        col.all? { |p| p == piece }
+      end
+
+      # win diagonally?
+      has_center = piece_at('b2') == piece
+      has_corner_pair = [['a1', 'c3'], ['c1', 'a3']].any? do |pair|
+        pair.all? { |space| piece_at(space) == piece }
+      end
+
+      return true if has_center && has_corner_pair
+
+      # nope
+      false
+    end
+
+    def draw?
+      over? && !won?('x') && !won?('o')
+    end
+
     # true if we are in a TTT game
     def self.present?
       files = Dir.entries(Dir.pwd)
@@ -94,6 +133,24 @@ module TTT
       (SPACES).all? do |file|
         files.include?(file)
       end
+    end
+
+    def self.opposite_corner(space)
+      out = ''
+
+      if space[0] == 'a'
+        out += 'c'
+      else
+        out += 'a'
+      end
+
+      if space[1] == '1'
+        out += '3'
+      else
+        out += '1'
+      end
+
+      out
     end
   end
 end

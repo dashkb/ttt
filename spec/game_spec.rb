@@ -133,4 +133,67 @@ describe TTT::Game do
       ]
     end
   end
+
+  context 'endgame' do
+    let(:draw) {[
+      %w{x x o},
+      %w{o o x},
+      %w{x o x}
+    ]}
+
+    let(:win_row) {[
+      %w{x x x},
+      %w{o o -},
+      %w{o - -}
+    ]}
+
+    let(:win_col) {[
+      %w{x o o},
+      %w{x - x},
+      %w{x x o}
+    ]}
+
+    let(:win_diag) {[
+      %w{x o o},
+      %w{o x x},
+      %w{- o x}
+    ]}
+
+    describe '#over?' do
+      it 'returns false when the game has not ended' do
+        game.over?.should == false
+        game.play('x', 'a1')
+        game.over?.should == false
+      end
+
+      it 'returns true when the board is full' do
+        game.stub(:to_a).and_return(draw)
+        game.over?.should == true
+      end
+
+      it 'returns true when a player has won the game' do
+        [win_row, win_col, win_diag].each do |win|
+          game.stub(:to_a).and_return(win)
+          game.over?.should == true
+        end
+      end
+    end
+
+    describe 'won?' do
+      it 'returns true when a player has won the game' do
+        [win_row, win_col, win_diag].each do |win|
+          game.stub(:to_a).and_return(win)
+          game.won?('x').should == true
+          game.won?('o').should == false
+        end
+      end
+    end
+
+    describe 'draw?' do
+      it 'returns true when a the game has ended in a draw' do
+        game.stub(:to_a).and_return(draw)
+        game.draw?.should == true
+      end
+    end
+  end
 end
