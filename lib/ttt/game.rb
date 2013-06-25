@@ -10,6 +10,7 @@ module TTT
 
   class Game
     SPACES = %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
+    CORNERS = %w{a1 a3 c1 c3}
     BOARD = [
       %w{a1 a2 a3},
       %w{b1 b2 b3},
@@ -106,6 +107,10 @@ module TTT
     def piece_at(space)
       idx = SPACES.flatten.find_index(space)
       to_a.flatten[idx]
+    end
+
+    def pieces_at(*spaces)
+      spaces.map { |space| piece_at(space) }
     end
 
     def won?(piece)

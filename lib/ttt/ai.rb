@@ -21,9 +21,27 @@ module TTT
         return TTT::Game::SPACES[coords_to_space(*move)]
       end
 
-      # first, just pick the first open space
+      # if all corners are open we want one
+      corners = @game.pieces_at(*TTT::Game::CORNERS)
+      if corners.all? { |p| p == '-'}
+        return 'a1'
+      end
+
+      # if opponent has a corner and the center is open
+      # we want it
+      if corners.any? { |p| p == opponent } && @game.piece_at('b2') == '-'
+        return 'b2'
+      end
+
+      # else, just pick the first open space
       idx = @game.to_a.flatten.index('-')
       TTT::Game::SPACES[idx]
+    end
+
+    def corner_pairs(piece)
+      [['a1', 'c3'], ['a3', 'c1']].select do |pair|
+        @game.pieces_at(*pair).all? { |p| p == piece }
+      end
     end
 
     def winning_move(piece)
@@ -45,10 +63,8 @@ module TTT
       end
 
       # corner pair and center open
-      has_corners = rows[0][0] == piece && rows[2][2] == piece
-      has_corners ||= rows[0][2] == piece && rows[2][0] == piece
-      center_open = rows[1][1] == '-'
-      if has_corners && center_open
+      center_open = @game.piece_at('b2') == '-'
+      if corner_pairs(piece).any? && center_open
         move = [1, 1]
       end
 
