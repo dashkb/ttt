@@ -56,10 +56,10 @@ module TTT
       pieces = game.to_a
 
       puts <<BOARD
-  A B C
-1 #{pieces[0][0]} #{pieces[0][1]} #{pieces[0][2]}
-2 #{pieces[1][0]} #{pieces[1][1]} #{pieces[1][2]}
-3 #{pieces[2][0]} #{pieces[2][1]} #{pieces[2][2]}
+  1 2 3
+A #{pieces[0][0]} #{pieces[0][1]} #{pieces[0][2]}
+B #{pieces[1][0]} #{pieces[1][1]} #{pieces[1][2]}
+C #{pieces[2][0]} #{pieces[2][1]} #{pieces[2][2]}
 BOARD
     end
 
