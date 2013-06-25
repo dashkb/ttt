@@ -1,29 +1,21 @@
-# Ttt
+# TTT
 
-TODO: Write a gem description
+A simple git-backed Tic Tac Toe game with AI
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'ttt'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ttt
+    $ git clone https://github.com/dashkb/ttt.git
+    $ cd ttt
+    $ rake install
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ ttt create path/to/new/game
+    $ cd path/to/new/game
+    $ ttt board # shows the board
+    $ ttt play [SPACE] # marks SPACE for the next player
+                       # space is a1, a2, ... , c3
+    $ ttt aiplay # have the computer make the next move
 
-## Contributing
+Don't forget to utilize `git branch` and `git reset` to fully analyze the depth of your Tic Tac Toe possibilities.
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
