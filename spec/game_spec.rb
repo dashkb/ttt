@@ -1,10 +1,13 @@
 require 'spec_helper'
 
 describe TTT::Game do
+  let(:game) { TTT::Game.new(TEST_DIR) }
+  let(:repo) { Grit::Repo.new(TEST_DIR) }
+
   describe '.new' do
     it 'should create a directory at the specified path' do
       expect {
-        TTT::Game.new(TEST_DIR)
+        game
       }.to change {
         Dir.exists?(TEST_DIR)
       }.from(false).to(true)
@@ -16,7 +19,7 @@ describe TTT::Game do
     end
 
     it 'should fill the created directory with a folder per board space' do
-      TTT::Game.new(TEST_DIR)
+      game
       TTT::Game::SPACES.map do |space|
         File.join(TEST_DIR, space)
       end.each do |space|
@@ -25,19 +28,19 @@ describe TTT::Game do
     end
 
     it 'initializes a git repo in the created directory' do
-      TTT::Game.new(TEST_DIR)
+      game
       Dir.chdir(TEST_DIR) do
         expect {
-          Grit::Repo.new(TEST_DIR)
+          repo
         }.to_not raise_exception(Grit::InvalidGitRepositoryError)
       end
+
+      repo.commits.length.should == 1
     end
   end
 
 
   describe '#play' do
-    let(:game) { TTT::Game.new(TEST_DIR) }
-
     it 'requires a piece and a space' do
       expect {
         game.play('x')
@@ -66,6 +69,11 @@ describe TTT::Game do
     it 'places a piece by creating a file in the space directory' do
       game.play('x', 'a1')
       File.exists?(File.join(TEST_DIR, 'a1', 'x')).should == true
+    end
+
+    it 'commits the move to the git repository' do
+      game.play('x', 'a1')
+      repo.commits.length.should == 2
     end
   end
 end

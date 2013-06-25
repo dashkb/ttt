@@ -21,6 +21,9 @@ module TTT
         end
 
         `git init .` # error checking obvs
+        `echo "instructions" > README` # TODO put instructions in here
+        `git add .`
+        `git commit -m "New game of Tic Tac Toe"`
       end
     end
 
@@ -29,7 +32,12 @@ module TTT
       raise IllegalPiece unless %w{x o}.include?(piece)
       raise IllegalSpace unless SPACES.include?(space)
 
-      `touch #{File.join(@dir, space, piece)}`
+      Dir.chdir(@dir) do
+        path = File.join(space, piece)
+        `echo #{piece} > #{path}`
+        `git add #{path}`
+        `git commit -m "#{piece} placed on #{space}"`
+      end
     end
   end
 end
