@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'ttt'
+require 'ttt/cli'
+
+begin
+  TTT::CLI.start(ARGV)
+rescue RuntimeError => e
+  puts "ERROR: #{e}".red
+end
+
+
