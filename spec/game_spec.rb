@@ -33,4 +33,39 @@ describe TTT::Game do
       end
     end
   end
+
+
+  describe '#play' do
+    let(:game) { TTT::Game.new(TEST_DIR) }
+
+    it 'requires a piece and a space' do
+      expect {
+        game.play('x')
+      }.to raise_exception(ArgumentError)
+
+      expect {
+        game.play('a2')
+      }.to raise_exception(ArgumentError)
+
+      expect {
+        game.play('x', 'a1')
+      }.to_not raise_exception(ArgumentError)
+    end
+
+
+    it 'requires a legal piece and space' do
+      expect {
+        game.play('y', 'a1')
+      }.to raise_exception(TTT::IllegalPiece)
+
+      expect {
+        game.play('x', 'z1')
+      }.to raise_exception(TTT::IllegalSpace)
+    end
+
+    it 'places a piece by creating a file in the space directory' do
+      game.play('x', 'a1')
+      File.exists?(File.join(TEST_DIR, 'a1', 'x')).should == true
+    end
+  end
 end
