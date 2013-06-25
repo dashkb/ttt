@@ -14,7 +14,6 @@ describe TTT::Game do
     end
 
     it 'knows the names of each space in Tic Tac Toe' do
-      # this is a dumb spec but whatever, typo check
       TTT::Game::SPACES.should == %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
     end
 
@@ -74,6 +73,20 @@ describe TTT::Game do
     it 'commits the move to the git repository' do
       game.play('x', 'a1')
       repo.commits.length.should == 2
+    end
+  end
+
+
+  describe '#to_a' do
+    it 'returns an array representation of the board' do
+      game.play('x', 'a1')
+      game.play('o', 'b2')
+      game.play('x', 'c1')
+      game.to_a.should == [
+        %w{x - -},
+        %w{- o -},
+        %w{x - -}
+      ]
     end
   end
 end

@@ -6,6 +6,11 @@ module TTT
 
   class Game
     SPACES = %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
+    BOARD = [
+      %w{a1 a2 a3},
+      %w{b1 b2 b3},
+      %w{c1 c2 c3}
+    ]
 
     # Create a Tic Tac Toe game at the
     # specified directory
@@ -37,6 +42,18 @@ module TTT
         `echo #{piece} > #{path}`
         `git add #{path}`
         `git commit -m "#{piece} placed on #{space}"`
+      end
+    end
+
+    def to_a
+      Dir.chdir(@dir) do
+        BOARD.map do |row|
+          row.map do |space|
+            # the dir should only have ['.', '..', piece]
+            # and piece might not be there so rescue with a dash
+            Dir.entries(File.join(@dir, space))[2] || '-'
+          end
+        end
       end
     end
   end
