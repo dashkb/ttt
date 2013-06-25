@@ -48,7 +48,6 @@ module TTT
         end
 
         `git init .` # error checking obvs
-        `echo "instructions" > README` # TODO put instructions in here
         `git add .`
         `git commit -m "New game of Tic Tac Toe"`
       end
