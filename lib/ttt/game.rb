@@ -4,6 +4,7 @@ module TTT
   class IllegalPiece  < StandardError; end
   class IllegalSpace  < StandardError; end
   class OccupiedSpace < StandardError; end
+  class GameExists    < StandardError; end
   class NotYourTurn   < StandardError; end
 
   class Game
@@ -21,7 +22,12 @@ module TTT
     end
 
     def build_board
-      Dir.mkdir(@dir)
+      begin
+        Dir.mkdir(@dir)
+      rescue Errno::EEXIST
+        raise GameExists
+      end
+
       Dir.chdir(@dir) do
         SPACES.each do |space|
           Dir.mkdir(File.join(@dir, space))
@@ -72,6 +78,15 @@ module TTT
         'x'
       else
         'o'
+      end
+    end
+
+    # true if we are in a TTT game
+    def self.present?
+      files = Dir.entries(Dir.pwd)
+
+      (SPACES).all? do |file|
+        files.include?(file)
       end
     end
   end

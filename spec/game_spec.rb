@@ -13,6 +13,14 @@ describe TTT::Game do
       }.from(false).to(true)
     end
 
+    it 'will not clobber an existing game' do
+      game
+
+      expect {
+        TTT::Game.new(TEST_DIR)
+      }.to raise_exception(TTT::GameExists)
+    end
+
     it 'knows the names of each space in Tic Tac Toe' do
       TTT::Game::SPACES.should == %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
     end
@@ -38,6 +46,16 @@ describe TTT::Game do
     end
   end
 
+  describe '.present' do
+    it 'checks cwd for a tic tac toe game' do
+      TTT::Game.present?.should == false
+
+      game
+      Dir.chdir(TEST_DIR) do
+        TTT::Game.present?.should == true
+      end
+    end
+  end
 
   describe '#play' do
     it 'requires a piece and a space' do
