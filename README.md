@@ -18,4 +18,4 @@ A simple git-backed Tic Tac Toe game with AI
     $ ttt aiplay # have the computer make the next move
 
 Don't forget to utilize `git branch` and `git reset` to fully analyze the depth of your Tic Tac Toe possibilities.
-
+And of course your games are all nicely summarized in your commit log.
