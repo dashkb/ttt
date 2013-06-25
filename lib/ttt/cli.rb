@@ -24,7 +24,7 @@ module TTT
       piece = game.next_player
 
       game.play(piece, space)
-      puts "Placing #{piece} on #{space}"
+      puts "Placing #{piece} on #{space}".green
 
       board
     end
