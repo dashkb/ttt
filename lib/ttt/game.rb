@@ -4,6 +4,7 @@ module TTT
   class IllegalPiece  < StandardError; end
   class IllegalSpace  < StandardError; end
   class OccupiedSpace < StandardError; end
+  class NotYourTurn   < StandardError; end
 
   class Game
     SPACES = %w{a1 a2 a3 b1 b2 b3 c1 c2 c3}
@@ -37,6 +38,7 @@ module TTT
     def play(piece, space)
       raise IllegalPiece unless %w{x o}.include?(piece)
       raise IllegalSpace unless SPACES.include?(space)
+      raise NotYourTurn unless next_player == piece
       raise OccupiedSpace unless Dir.entries(
         File.join(@dir, space)
       ).length == 2 # ['.', '..'] is empty directory
@@ -58,6 +60,18 @@ module TTT
             Dir.entries(File.join(@dir, space))[2] || '-'
           end
         end
+      end
+    end
+
+    def next_player
+      pieces = to_a.flatten
+      xs = pieces.count('x')
+      os = pieces.count('o')
+
+      if xs == os
+        'x'
+      else
+        'o'
       end
     end
   end

@@ -81,6 +81,25 @@ describe TTT::Game do
         game.play('o', 'a1')
       }.to raise_exception(TTT::OccupiedSpace)
     end
+
+    it 'will not allow a player to play out of turn' do
+      game.play('x', 'a1')
+
+      expect {
+        game.play('x', 'a2')
+      }.to raise_exception(TTT::NotYourTurn)
+    end
+  end
+
+  describe '#next_player' do
+    it 'is initially x' do
+      game.next_player.should == 'x'
+    end
+
+    it 'is o after x plays' do
+      game.play('x', 'a1')
+      game.next_player.should == 'o'
+    end
   end
 
 
