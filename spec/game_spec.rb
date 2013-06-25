@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe TTT::Game do
-  let(:game) { TTT::Game.new(TEST_DIR) }
+  let(:game) { TTT::Game.create(TEST_DIR) }
   let(:repo) { Grit::Repo.new(TEST_DIR) }
 
-  describe '.new' do
+  describe '.create' do
     it 'should create a directory at the specified path' do
       expect {
         game
@@ -17,7 +17,7 @@ describe TTT::Game do
       game
 
       expect {
-        TTT::Game.new(TEST_DIR)
+        TTT::Game.create(TEST_DIR)
       }.to raise_exception(TTT::GameExists)
     end
 

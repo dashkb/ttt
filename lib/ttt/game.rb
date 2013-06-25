@@ -17,8 +17,14 @@ module TTT
 
     # Create a Tic Tac Toe game at the
     # specified directory
+    def self.create(dir)
+      self.new(dir).tap do |game|
+        game.build_board
+      end
+    end
+
     def initialize(dir)
-      @dir = dir and build_board
+      @dir = dir
     end
 
     def build_board
