@@ -4,6 +4,11 @@ module TTT
 
     def initialize(dir)
       Dir.mkdir(dir)
+      Dir.chdir(dir) do
+        SPACES.each do |space|
+          Dir.mkdir(File.join(dir, space))
+        end
+      end
     end
   end
 end
