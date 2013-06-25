@@ -1,5 +1,5 @@
 require "ttt/version"
 
-module Ttt
+module TTT
   # Your code goes here...
 end

@@ -5,7 +5,7 @@ require 'ttt/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "ttt"
-  spec.version       = Ttt::VERSION
+  spec.version       = TTT::VERSION
   spec.authors       = ["Kyle Brett"]
   spec.email         = ["kyle@kylebrett.com"]
   spec.description   = %q{tic tac toe}
