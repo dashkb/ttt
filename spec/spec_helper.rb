@@ -1,4 +1,5 @@
 require 'ttt'
+require 'pry'
 
 TEST_DIR = File.expand_path('../test_game', __FILE__)
 

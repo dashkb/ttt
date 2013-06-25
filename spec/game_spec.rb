@@ -23,5 +23,14 @@ describe TTT::Game do
         Dir.exists?(space).should == true
       end
     end
+
+    it 'initializes a git repo in the created directory' do
+      TTT::Game.new(TEST_DIR)
+      Dir.chdir(TEST_DIR) do
+        expect {
+          Grit::Repo.new(TEST_DIR)
+        }.to_not raise_exception(Grit::InvalidGitRepositoryError)
+      end
+    end
   end
 end
