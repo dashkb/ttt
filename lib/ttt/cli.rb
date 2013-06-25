@@ -1,7 +1,6 @@
 require 'thor'
 require 'colorize'
 
-
 module TTT
   class CLI < Thor
     desc 'create PATH', 'start a new tic tac toe repo'
@@ -28,6 +27,16 @@ module TTT
       puts "Placing #{piece} on #{space}"
 
       board
+    end
+
+    desc 'aiplay', 'let the computer make the next move'
+    def aiplay
+      play(AI.new(game).pick_space)
+    end
+
+    desc 'aishow', 'show the move the computer would make'
+    def aishow
+      puts AI.new(game).pick_space
     end
 
     desc 'board', 'show the board'
